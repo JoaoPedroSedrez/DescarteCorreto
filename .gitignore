@@ -1,0 +1,9 @@
+node_modules/
+dist/
+uploads/
+*.db
+.env
+CLAUDE.md
+TASK.md
+thoughts/
+.claude/
