@@ -6,6 +6,10 @@ import collectionPointsRouter from "./routes/collectionPoints";
 import reportsRouter from "./routes/reports";
 import collectionsRouter from "./routes/collections";
 
+if (!process.env.SESSION_SECRET) {
+  throw new Error("SESSION_SECRET não definido no .env");
+}
+
 const app = express();
 const PORT = 3333;
 
@@ -22,7 +26,7 @@ app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 // A session é um "arquivo temporário" no servidor que lembra quem está logado
 app.use(
   session({
-    secret: "descarte-certo-secret", // chave usada para assinar o cookie (em produção seria uma variável de ambiente)
+    secret: process.env.SESSION_SECRET!,
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 60 * 60 * 24 }, // sessão dura 24 horas
