@@ -44,9 +44,14 @@ src/
 │   ├── collectionPoints.ts # listagem e filtros de pontos de coleta
 │   ├── reports.ts         # denúncias de descarte irregular
 │   └── collections.ts     # solicitações de coleta
-└── middleware/
-    ├── auth.ts            # protege rotas que precisam de login
-    └── upload.ts          # configuração do multer
+├── middleware/
+│   ├── auth.ts            # protege rotas que precisam de login
+│   ├── upload.ts          # configuração do multer
+│   └── validate.ts        # middleware genérico de validação com Zod
+└── schemas/
+    ├── users.ts           # schemas de registro e login
+    ├── collections.ts     # schema de solicitação de coleta
+    └── reports.ts         # schema de denúncia
 ```
 
 ---
@@ -162,7 +167,7 @@ O projeto tem 4 tabelas principais:
 Esse projeto ainda está em construção. Algumas coisas que estão na lista:
 
 - [ ] Implementar o frontend nas páginas da pasta `/public`
-- [ ] Adicionar validação de dados com Zod
+- [x] Adicionar validação de dados com Zod
 - [ ] Configurar CORS direito pra quando tiver um frontend separado
 - [ ] Melhorar tratamento de erros nas rotas
 - [ ] Adicionar testes automatizados
