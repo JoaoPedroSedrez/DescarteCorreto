@@ -4,12 +4,13 @@ import { db } from "../db";
 import { reports } from "../db/schema";
 import { requireAuth } from "../middleware/auth";
 import { upload } from "../middleware/upload";
+import { validate } from "../middleware/validate";
+import { reportSchema } from "../schemas/reports";
 
 const router = Router();
 
 // POST /api/reports — cria uma nova denúncia (login obrigatório)
-// Middlewares em sequência: requireAuth verifica login, upload.single salva a imagem
-router.post("/", requireAuth, upload.single("image"), async (req, res) => {
+router.post("/", requireAuth, upload.single("image"), validate(reportSchema), async (req, res) => {
   // req.file contém os dados do arquivo enviado (preenchido pelo multer)
   if (!req.file) {
     res.status(400).json({ error: "Imagem é obrigatória." });
@@ -17,11 +18,6 @@ router.post("/", requireAuth, upload.single("image"), async (req, res) => {
   }
 
   const { description, address, latitude, longitude } = req.body;
-
-  if (!description || !address || !latitude || !longitude) {
-    res.status(400).json({ error: "Descrição, endereço e localização são obrigatórios." });
-    return;
-  }
 
   // req.file.filename = nome do arquivo salvo em disco (ex: "1710000000000-foto.jpg")
   // Guardamos só o nome — o caminho completo é reconstruído quando servir o arquivo
@@ -31,8 +27,8 @@ router.post("/", requireAuth, upload.single("image"), async (req, res) => {
       user_id: req.session.userId!,
       description,
       image_path: req.file.filename,
-      latitude: parseFloat(latitude),
-      longitude: parseFloat(longitude),
+      latitude,
+      longitude,
       address,
     })
     .returning();
