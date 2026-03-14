@@ -4,33 +4,19 @@ import { db } from "../db";
 import { collections } from "../db/schema";
 import { requireAuth } from "../middleware/auth";
 import { upload } from "../middleware/upload";
+import { validate } from "../middleware/validate";
+import { collectionSchema } from "../schemas/collections";
 
 const router = Router();
 
 // POST /api/collections — solicita uma coleta (login obrigatório)
-router.post("/", requireAuth, upload.single("image"), async (req, res) => {
+router.post("/", requireAuth, upload.single("image"), validate(collectionSchema), async (req, res) => {
   if (!req.file) {
     res.status(400).json({ error: "Imagem é obrigatória." });
     return;
   }
 
   const { material_type, description, address, neighborhood, city, state, scheduled_date } = req.body;
-
-  if (!material_type || !address || !city || !state || !scheduled_date) {
-    res.status(400).json({ error: "Tipo de material, endereço, cidade, estado e data são obrigatórios." });
-    return;
-  }
-
-  // Validação do prazo mínimo de 48 horas
-  // getTime() retorna o timestamp em milissegundos — subtraímos e convertemos para horas
-  const now = new Date();
-  const scheduledAt = new Date(scheduled_date);
-  const diffHours = (scheduledAt.getTime() - now.getTime()) / (1000 * 60 * 60);
-
-  if (diffHours < 48) {
-    res.status(400).json({ error: "A data de coleta deve ser pelo menos 48 horas a partir de agora." });
-    return;
-  }
 
   const [newCollection] = await db
     .insert(collections)
@@ -43,7 +29,7 @@ router.post("/", requireAuth, upload.single("image"), async (req, res) => {
       neighborhood,
       city,
       state,
-      scheduled_date: scheduledAt,
+      scheduled_date,
       // status começa como "pending" (valor padrão definido no schema)
     })
     .returning();
