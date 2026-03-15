@@ -1,0 +1,22 @@
+meta {
+  name: Logout
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/users/logout
+  body: none
+  auth: none
+}
+
+docs {
+  ## Logout
+
+  Encerra a sessão do usuário logado, invalidando o cookie de sessão.
+
+  **Autenticação:** Via cookie de sessão (fazer login antes)
+
+  **Respostas:**
+  - `200` — Logout realizado com sucesso
+}

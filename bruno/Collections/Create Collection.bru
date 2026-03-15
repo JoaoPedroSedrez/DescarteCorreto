@@ -1,0 +1,47 @@
+meta {
+  name: Create Collection
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/collections
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  material_type: plastic
+  description: Garrafas PET acumuladas para reciclagem
+  address: Rua XV de Novembro, 500
+  neighbordhood: Centro
+  city: Joinville
+  state: SC
+  scheduled_date: 2026-03-20
+  image: @file(/path/to/image.jpg)
+}
+
+docs {
+  ## Solicitar Coleta
+
+  Registra uma nova solicitação de coleta de materiais. Requer envio de imagem via multipart/form-data.
+
+  **Autenticação:** Obrigatória (cookie de sessão — fazer login antes)
+
+  **Campos obrigatórios:**
+  - `material_type` (enum: plastic, paper, glass, metal)
+  - `address` (string) — Endereço para coleta
+  - `neighbordhood` (string) — Bairro
+  - `city` (string) — Cidade
+  - `state` (string, 2 letras) — Estado (ex: SC)
+  - `scheduled_date` (date) — Data agendada (mínimo 48h no futuro)
+  - `image` (file) — Foto do material
+
+  **Campos opcionais:**
+  - `description` (string) — Descrição do material
+
+  **Respostas:**
+  - `201` — Coleta registrada com sucesso
+  - `400` — Imagem obrigatória ou erro de validação
+  - `401` — Não autenticado
+}

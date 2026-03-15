@@ -1,0 +1,37 @@
+meta {
+  name: Login
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/users/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "joao@email.com",
+    "password": "123456"
+  }
+}
+
+docs {
+  ## Login
+
+  Autentica o usuário e inicia uma sessão via cookie (dura 24h).
+
+  **Autenticação:** Não necessária
+
+  **Campos obrigatórios:**
+  - `email` (string, email válido)
+  - `password` (string)
+
+  **Respostas:**
+  - `200` — Login realizado com sucesso
+  - `401` — Email ou senha incorretos
+  - `400` — Erro de validação (Zod)
+
+  **Importante:** Após o login, o cookie de sessão é automaticamente armazenado pelo Bruno. Use-o antes de chamar rotas protegidas.
+}

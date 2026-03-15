@@ -1,0 +1,28 @@
+meta {
+  name: Cancel Collection
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/api/collections/1/cancel
+  body: none
+  auth: none
+}
+
+docs {
+  ## Cancelar Coleta
+
+  Cancela uma solicitação de coleta. Só é possível cancelar coletas com status "pending" ou "under_review". O usuário só pode cancelar suas próprias coletas.
+
+  **Autenticação:** Obrigatória (cookie de sessão — fazer login antes)
+
+  **Parâmetros de rota:**
+  - `:id` — ID da coleta (troque o `1` na URL)
+
+  **Respostas:**
+  - `200` — Coleta cancelada com sucesso
+  - `400` — Não é possível cancelar (status não permite)
+  - `404` — Coleta não encontrada (ou não pertence ao usuário)
+  - `401` — Não autenticado
+}

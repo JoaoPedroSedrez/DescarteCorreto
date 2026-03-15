@@ -1,0 +1,33 @@
+meta {
+  name: List with Filters
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/collection-points?type=electronic&city=Joinville
+  body: none
+  auth: none
+}
+
+params:query {
+  type: electronic
+  city: Joinville
+  ~neighborhood: Centro
+}
+
+docs {
+  ## Listar Pontos com Filtros
+
+  Lista pontos de coleta aplicando filtros por tipo, cidade e/ou bairro.
+
+  **Autenticação:** Não necessária
+
+  **Query params:**
+  - `type` — tipo do ponto (ex: electronic, recyclable)
+  - `city` — cidade (case-insensitive)
+  - `neighborhood` — bairro (case-insensitive, desabilitado por padrão)
+
+  **Respostas:**
+  - `200` — Array filtrado de pontos de coleta
+}

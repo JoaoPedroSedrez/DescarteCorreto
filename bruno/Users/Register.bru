@@ -1,0 +1,37 @@
+meta {
+  name: Register
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/users/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "João Silva",
+    "email": "joao@email.com",
+    "password": "123456"
+  }
+}
+
+docs {
+  ## Criar Conta
+
+  Cria uma nova conta de usuário e já inicia a sessão (usuário fica logado automaticamente).
+
+  **Autenticação:** Não necessária
+
+  **Campos obrigatórios:**
+  - `name` (string, min 3 caracteres)
+  - `email` (string, email válido)
+  - `password` (string, min 6 caracteres)
+
+  **Respostas:**
+  - `201` — Conta criada com sucesso
+  - `409` — Email já cadastrado
+  - `400` — Erro de validação (Zod)
+}
