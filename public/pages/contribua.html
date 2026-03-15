@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contribuir — DescarteCorreto</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .contribua-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .form-section h3 {
+      font-size: 1.2rem;
+      color: var(--green);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--green-light);
+    }
+    .form-section.card {
+      display: flex;
+      flex-direction: column;
+    }
+    .form-section.card form {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .form-section.card form .btn {
+      margin-top: auto;
+    }
+    @media (max-width: 700px) {
+      .contribua-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="navbar-brand">DescarteCorreto ♻️</a>
+  <ul class="navbar-links">
+    <li><a href="/pages/pontos.html">Pontos de Coleta</a></li>
+    <li><a href="/pages/contribua.html" class="active">Contribuir</a></li>
+    <li><a href="/pages/ranking.html">Ranking</a></li>
+    <li id="nav-auth"></li>
+  </ul>
+</nav>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Contribuir</h2>
+    <p style="color:var(--text-secondary);margin-bottom:2rem">
+      Faça uma denúncia de descarte irregular ou solicite uma coleta em domicílio.
+    </p>
+
+    <div class="contribua-grid">
+
+      <!-- Seção Denúncia -->
+      <div class="form-section card" id="denuncia">
+        <h3>🚨 Fazer uma Denúncia</h3>
+        <form id="form-denuncia" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="d-descricao">Descrição *</label>
+            <textarea id="d-descricao" name="description" required placeholder="Descreva o descarte irregular..."></textarea>
+          </div>
+          <div class="form-group">
+            <label for="d-endereco">Endereço *</label>
+            <input type="text" id="d-endereco" name="address" required placeholder="Rua, número">
+          </div>
+          <div class="form-group">
+            <label for="d-bairro">Bairro</label>
+            <input type="text" id="d-bairro" name="neighbordhood" placeholder="Ex: Centro">
+          </div>
+          <div class="form-group">
+            <label for="d-cidade">Cidade *</label>
+            <input type="text" id="d-cidade" name="city" required placeholder="Ex: Joinville">
+          </div>
+          <div class="form-group">
+            <label for="d-estado">Estado *</label>
+            <input type="text" id="d-estado" name="state" required placeholder="SC" maxlength="2">
+          </div>
+          <div class="form-group">
+            <label for="d-foto">Foto do local * <small>(obrigatória)</small></label>
+            <input type="file" id="d-foto" name="image" accept="image/*" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Enviar Denúncia</button>
+          <div id="denuncia-msg" class="msg" style="margin-top:1rem;margin-bottom:0"></div>
+        </form>
+      </div>
+
+      <!-- Seção Solicitar Coleta -->
+      <div class="form-section card" id="coleta">
+        <h3>♻️ Solicitar Coleta</h3>
+        <form id="form-coleta" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="c-tipo">Tipo de material *</label>
+            <select id="c-tipo" name="material_type" required>
+              <option value="">Selecione...</option>
+              <option value="plastic">Plástico</option>
+              <option value="paper">Papel</option>
+              <option value="glass">Vidro</option>
+              <option value="metal">Metal</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="c-descricao">Descrição</label>
+            <textarea id="c-descricao" name="description" placeholder="Detalhes opcionais sobre o material..."></textarea>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+            <div class="form-group">
+              <label for="c-endereco">Endereço *</label>
+              <input type="text" id="c-endereco" name="address" required placeholder="Rua, número">
+            </div>
+            <!-- ATENÇÃO: campo enviado como "neighbordhood" (typo no schema do backend) -->
+            <div class="form-group">
+              <label for="c-bairro">Bairro *</label>
+              <input type="text" id="c-bairro" name="neighbordhood" required placeholder="Ex: Centro">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr auto;gap:1rem">
+            <div class="form-group">
+              <label for="c-cidade">Cidade *</label>
+              <input type="text" id="c-cidade" name="city" required placeholder="Ex: Joinville">
+            </div>
+            <div class="form-group">
+              <label for="c-estado">Estado *</label>
+              <input type="text" id="c-estado" name="state" required placeholder="SC" maxlength="2" style="width:5rem">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+            <div class="form-group">
+              <label for="coleta-data">Data de coleta * <small>(mín. 48h)</small></label>
+              <input type="text" id="coleta-data" placeholder="DD/MM/AAAA" maxlength="10" required>
+            </div>
+            <div class="form-group">
+              <label for="coleta-hora">Hora da coleta *</label>
+              <input type="text" id="coleta-hora" placeholder="HH:MM" maxlength="5" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="c-foto">Foto do material * <small>(obrigatória)</small></label>
+            <input type="file" id="c-foto" name="image" accept="image/*" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Solicitar Coleta</button>
+          <div id="coleta-msg" class="msg" style="margin-top:1rem;margin-bottom:0"></div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>DescarteCorreto © 2026 — Projeto Acadêmico Univille</p>
+</footer>
+
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/contribua.js"></script>
+</body>
+</html>
