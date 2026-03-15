@@ -1,6 +1,6 @@
 import { Router } from "express";
 import bcrypt from "bcrypt";
-import { eq, desc, sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { db } from "../db";
 import { users, reports, collections } from "../db/schema";
 import { requireAuth } from "../middleware/auth";
@@ -86,7 +86,7 @@ router.get("/ranking", async (_req, res) => {
     .leftJoin(reports, eq(reports.user_id, users.id))
     .leftJoin(collections, eq(collections.user_id, users.id))
     .groupBy(users.id, users.name)
-    .orderBy(desc(sql`count(distinct ${reports.id}) + count(distinct ${collections.id}) filter (where ${collections.status} = 'completed')`));
+    .orderBy(sql`count(distinct ${reports.id}) + count(distinct ${collections.id}) filter (where ${collections.status} = 'completed') desc`);
 
   res.json(ranking);
 });
