@@ -1,0 +1,23 @@
+meta {
+  name: My Collections
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/collections/mine
+  body: none
+  auth: none
+}
+
+docs {
+  ## Minhas Coletas
+
+  Lista todas as solicitações de coleta do usuário logado.
+
+  **Autenticação:** Obrigatória (cookie de sessão — fazer login antes)
+
+  **Respostas:**
+  - `200` — Array de coletas do usuário
+  - `401` — Não autenticado
+}

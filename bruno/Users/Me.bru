@@ -1,0 +1,23 @@
+meta {
+  name: Me
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/users/me
+  body: none
+  auth: none
+}
+
+docs {
+  ## Dados do Usuário Logado
+
+  Retorna os dados (id, name, email) do usuário autenticado na sessão atual.
+
+  **Autenticação:** Obrigatória (cookie de sessão — fazer login antes)
+
+  **Respostas:**
+  - `200` — Dados do usuário
+  - `401` — Não autenticado
+}

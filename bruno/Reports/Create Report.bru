@@ -1,0 +1,39 @@
+meta {
+  name: Create Report
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/reports
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  description: Descarte irregular de lixo eletrônico na calçada
+  address: Rua das Flores, 123 - Centro
+  latitude: -26.3044
+  longitude: -48.8487
+  image: @file(/path/to/image.jpg)
+}
+
+docs {
+  ## Criar Denúncia
+
+  Registra uma nova denúncia de descarte irregular. Requer envio de imagem via multipart/form-data.
+
+  **Autenticação:** Obrigatória (cookie de sessão — fazer login antes)
+
+  **Campos obrigatórios:**
+  - `description` (string) — Descrição do descarte irregular
+  - `address` (string) — Endereço do local
+  - `latitude` (number) — Latitude do local
+  - `longitude` (number) — Longitude do local
+  - `image` (file) — Foto do descarte (selecionar arquivo)
+
+  **Respostas:**
+  - `201` — Denúncia registrada com sucesso
+  - `400` — Imagem obrigatória ou erro de validação
+  - `401` — Não autenticado
+}

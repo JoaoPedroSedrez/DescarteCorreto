@@ -1,0 +1,27 @@
+meta {
+  name: List All
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/collection-points
+  body: none
+  auth: none
+}
+
+docs {
+  ## Listar Pontos de Coleta
+
+  Lista todos os pontos de coleta cadastrados.
+
+  **Autenticação:** Não necessária
+
+  **Filtros opcionais via query string:**
+  - `?type=recyclable` — filtra por tipo
+  - `?city=Joinville` — filtra por cidade
+  - `?neighborhood=Centro` — filtra por bairro
+
+  **Respostas:**
+  - `200` — Array de pontos de coleta
+}

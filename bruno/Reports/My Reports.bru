@@ -1,0 +1,23 @@
+meta {
+  name: My Reports
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/reports/mine
+  body: none
+  auth: none
+}
+
+docs {
+  ## Minhas Denúncias
+
+  Lista todas as denúncias feitas pelo usuário logado.
+
+  **Autenticação:** Obrigatória (cookie de sessão — fazer login antes)
+
+  **Respostas:**
+  - `200` — Array de denúncias do usuário
+  - `401` — Não autenticado
+}

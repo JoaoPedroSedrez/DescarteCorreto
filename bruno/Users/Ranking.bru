@@ -1,0 +1,22 @@
+meta {
+  name: Ranking
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/users/ranking
+  body: none
+  auth: none
+}
+
+docs {
+  ## Ranking de Usuários
+
+  Lista todos os usuários ordenados por contribuições (denúncias + coletas completadas).
+
+  **Autenticação:** Não necessária
+
+  **Respostas:**
+  - `200` — Array com id, name, report_count, collection_count, total
+}

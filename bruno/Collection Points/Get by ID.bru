@@ -1,0 +1,26 @@
+meta {
+  name: Get by ID
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/collection-points/1
+  body: none
+  auth: none
+}
+
+docs {
+  ## Buscar Ponto por ID
+
+  Retorna um ponto de coleta específico pelo seu ID.
+
+  **Autenticação:** Não necessária
+
+  **Parâmetros de rota:**
+  - `:id` — ID do ponto de coleta (troque o `1` na URL)
+
+  **Respostas:**
+  - `200` — Dados do ponto de coleta
+  - `404` — Ponto de coleta não encontrado
+}
