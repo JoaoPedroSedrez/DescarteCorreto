@@ -86,7 +86,7 @@ router.get("/ranking", async (_req, res) => {
     .leftJoin(reports, eq(reports.user_id, users.id))
     .leftJoin(collections, eq(collections.user_id, users.id))
     .groupBy(users.id, users.name)
-    .orderBy(desc(sql`total`));
+    .orderBy(desc(sql`count(distinct ${reports.id}) + count(distinct ${collections.id}) filter (where ${collections.status} = 'completed')`));
 
   res.json(ranking);
 });

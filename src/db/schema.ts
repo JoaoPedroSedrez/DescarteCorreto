@@ -8,6 +8,7 @@ export const users = pgTable("users", {
   created_at: timestamp("created_at").defaultNow(),
 });
 
+
 export const collection_points = pgTable("collection_points", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
@@ -26,9 +27,10 @@ export const reports = pgTable("reports", {
   user_id: integer("user_id").notNull().references(() => users.id),
   description: text("description").notNull(),
   image_path: text("image_path").notNull(),
-  latitude: real("latitude").notNull(),
-  longitude: real("longitude").notNull(),
   address: text("address").notNull(),
+  neighbordhood: text("neighbordhood"),
+  city: text("city").notNull(),
+  state: text("state").notNull(),
   created_at: timestamp("created_at").defaultNow(),
 });
 
