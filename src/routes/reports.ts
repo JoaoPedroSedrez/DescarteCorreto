@@ -17,7 +17,7 @@ router.post("/", requireAuth, upload.single("image"), validate(reportSchema), as
     return;
   }
 
-  const { description, address, latitude, longitude } = req.body;
+  const { description, address, neighbordhood, city, state } = req.body;
 
   // req.file.filename = nome do arquivo salvo em disco (ex: "1710000000000-foto.jpg")
   // Guardamos só o nome — o caminho completo é reconstruído quando servir o arquivo
@@ -27,9 +27,10 @@ router.post("/", requireAuth, upload.single("image"), validate(reportSchema), as
       user_id: req.session.userId!,
       description,
       image_path: req.file.filename,
-      latitude,
-      longitude,
       address,
+      neighbordhood,
+      city,
+      state,
     })
     .returning();
 
