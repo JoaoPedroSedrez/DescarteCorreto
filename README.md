@@ -1,30 +1,28 @@
 # DescarteCorreto ♻️
 
-Um projeto feito pra ajudar as pessoas a descartarem resíduos corretamente em Joinville, SC. A ideia é simples: conectar quem quer descartar lixo do jeito certo com os pontos de coleta certos.
+Plataforma para auxiliar a população de Joinville, SC, a realizar o descarte correto de resíduos. O sistema conecta usuários aos pontos de coleta adequados para cada tipo de material.
 
-Esse projeto é um trabalho acadêmico da Univille, mas foi feito com carinho e com vontade de aprender de verdade.
-
----
-
-## O que o projeto faz?
-
-- Usuário se cadastra e faz login
-- Pode denunciar descarte irregular de lixo (com foto e localização)
-- Pode solicitar coleta de resíduos em casa
-- Pode encontrar pontos de coleta próximos (reciclável, eletrônico, óleo, bateria, orgânico, medicamento...)
-- Tem um ranking de usuários por contribuições — quanto mais você ajuda, mais pontos!
+Projeto acadêmico desenvolvido na Univille.
 
 ---
 
-## Tecnologias usadas
+## Funcionalidades
 
-Tentei usar coisas que valem a pena aprender:
+- Cadastro e autenticação de usuários
+- Denúncia de descarte irregular (com foto e localização)
+- Solicitação de coleta de resíduos em domicílio
+- Localização de pontos de coleta por tipo de resíduo (reciclável, eletrônico, óleo, bateria, orgânico, medicamento, entre outros)
+- Ranking de usuários por contribuições
+
+---
+
+## Tecnologias
 
 - **Node.js + Express 5** — servidor HTTP
-- **TypeScript** — pra ter um pouco mais de sanidade com os tipos
+- **TypeScript** — tipagem estática
 - **PostgreSQL** — banco de dados relacional
-- **Drizzle ORM** — ORM bem moderno, gostei bastante
-- **Bcrypt** — pra guardar senha com segurança (nunca salva senha em texto puro!)
+- **Drizzle ORM** — mapeamento objeto-relacional
+- **Bcrypt** — hash de senhas
 - **Express-session** — autenticação por sessão
 - **Multer** — upload de imagens
 
@@ -34,24 +32,43 @@ Tentei usar coisas que valem a pena aprender:
 
 ```
 src/
-├── server.ts              # ponto de entrada, configura o Express
+├── server.ts                  # ponto de entrada, configuração do Express
 ├── db/
-│   ├── index.ts           # conexão com o banco
-│   ├── schema.ts          # tabelas do banco (users, reports, collections, collection_points)
-│   └── seed.ts            # popula o banco com pontos de coleta iniciais
+│   ├── index.ts               # conexão com o banco
+│   ├── schema.ts              # definição das tabelas
+│   └── seed.ts                # seed com pontos de coleta iniciais
 ├── routes/
-│   ├── users.ts           # registro, login, logout, ranking
-│   ├── collectionPoints.ts # listagem e filtros de pontos de coleta
-│   ├── reports.ts         # denúncias de descarte irregular
-│   └── collections.ts     # solicitações de coleta
+│   ├── users.ts               # registro, login, logout, ranking
+│   ├── collectionPoints.ts    # listagem e filtros de pontos de coleta
+│   ├── reports.ts             # denúncias de descarte irregular
+│   └── collections.ts         # solicitações de coleta
 ├── middleware/
-│   ├── auth.ts            # protege rotas que precisam de login
-│   ├── upload.ts          # configuração do multer
-│   └── validate.ts        # middleware genérico de validação com Zod
+│   ├── auth.ts                # proteção de rotas autenticadas
+│   ├── upload.ts              # configuração do Multer
+│   └── validate.ts            # validação de requisições com Zod
 └── schemas/
-    ├── users.ts           # schemas de registro e login
-    ├── collections.ts     # schema de solicitação de coleta
-    └── reports.ts         # schema de denúncia
+    ├── users.ts               # schemas de registro e login
+    ├── collections.ts         # schema de solicitação de coleta
+    └── reports.ts             # schema de denúncia
+
+public/
+├── index.html                 # página inicial com mapa
+├── css/
+│   └── style.css
+├── js/
+│   ├── api.js                 # cliente HTTP compartilhado
+│   ├── auth.js                # controle de sessão no frontend
+│   ├── home-map.js            # mapa da página inicial
+│   ├── pontos.js              # listagem de pontos de coleta
+│   ├── contribua.js           # formulários de denúncia e coleta
+│   ├── ranking.js             # ranking de usuários
+│   └── minhas-acoes.js        # histórico do usuário logado
+└── pages/
+    ├── login.html
+    ├── pontos.html
+    ├── contribua.html
+    ├── ranking.html
+    └── minhas-acoes.html
 ```
 
 ---
@@ -111,7 +128,7 @@ npm install
 
 # 3. Configure as variáveis de ambiente
 cp .env.example .env
-# edite o .env com seus dados
+# edite o .env com suas credenciais
 
 # 4. Rode as migrations (cria as tabelas no banco)
 npm run db:push
@@ -123,13 +140,13 @@ npm run db:seed
 npm run dev
 ```
 
-O servidor vai subir em `http://localhost:3333` 🚀
+O servidor sobe em `http://localhost:3333`.
 
 ### Scripts disponíveis
 
 | Comando | O que faz |
 |---------|-----------|
-| `npm run dev` | Inicia com hot-reload (ts-node) |
+| `npm run dev` | Inicia com hot-reload |
 | `npm run build` | Compila o TypeScript |
 | `npm start` | Roda a versão compilada |
 | `npm run db:push` | Aplica o schema no banco |
@@ -144,31 +161,21 @@ Crie um arquivo `.env` na raiz (use o `.env.example` como base):
 
 ```env
 DATABASE_URL=postgresql://usuario:senha@localhost:5432/descarte_certo
-SESSION_SECRET=troque-isso-por-uma-string-longa-e-aleatoria
+SESSION_SECRET=uma-string-longa-e-aleatoria
 ```
 
-> O `.env` já está no `.gitignore`, então não vai subir pro repositório. Nunca suba suas credenciais!
+> O `.env` já está no `.gitignore` e não deve ser versionado.
 
 ---
 
-## O banco de dados
+## Banco de dados
 
-O projeto tem 4 tabelas principais:
+O projeto utiliza 4 tabelas principais:
 
-- **users** — dados dos usuários (senha hasheada com bcrypt)
+- **users** — dados dos usuários (senha armazenada com hash bcrypt)
 - **collection_points** — pontos de coleta com tipo, endereço e coordenadas
 - **reports** — denúncias de descarte irregular
 - **collections** — solicitações de coleta agendada
-
----
-
-## Coisas que ainda quero melhorar
-
-Esse projeto ainda está em construção. Algumas coisas que estão na lista:
-
-- [x] Implementar o frontend nas páginas da pasta `/public`
-- [x] Adicionar validação de dados com Zod
-- [x] Mover o segredo da sessão pra variável de ambiente
 
 ---
 
