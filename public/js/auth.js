@@ -44,5 +44,19 @@ async function requireAuth() {
   return true;
 }
 
+// Hamburger menu toggle
+function toggleNavMenu() {
+  const links = document.querySelector('.navbar-links');
+  if (links) links.classList.toggle('open');
+}
+
+// Fecha o menu ao clicar em qualquer link/botão dentro da navbar
+document.addEventListener('click', function(e) {
+  if (e.target.closest('.navbar-links a, .navbar-links button')) {
+    const links = document.querySelector('.navbar-links');
+    if (links) links.classList.remove('open');
+  }
+});
+
 // Carrega auth automaticamente ao incluir o script
 loadAuth();
