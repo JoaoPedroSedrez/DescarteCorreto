@@ -33,12 +33,16 @@
     @media (max-width: 700px) {
       .contribua-grid { grid-template-columns: 1fr; }
     }
+    @media (max-width: 820px) {
+      .form-row { grid-template-columns: 1fr !important; }
+    }
   </style>
 </head>
 <body>
 
 <nav class="navbar">
   <a href="/" class="navbar-brand">DescarteCorreto ♻️</a>
+  <button class="navbar-toggle" onclick="toggleNavMenu()" aria-label="Menu">☰</button>
   <ul class="navbar-links">
     <li><a href="/pages/pontos.html">Pontos de Coleta</a></li>
     <li><a href="/pages/contribua.html" class="active">Contribuir</a></li>
@@ -107,7 +111,7 @@
             <label for="c-descricao">Descrição</label>
             <textarea id="c-descricao" name="description" placeholder="Detalhes opcionais sobre o material..."></textarea>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
             <div class="form-group">
               <label for="c-endereco">Endereço *</label>
               <input type="text" id="c-endereco" name="address" required placeholder="Rua, número">
@@ -118,7 +122,7 @@
               <input type="text" id="c-bairro" name="neighbordhood" required placeholder="Ex: Centro">
             </div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr auto;gap:1rem">
+          <div class="form-row" style="display:grid;grid-template-columns:1fr auto;gap:1rem">
             <div class="form-group">
               <label for="c-cidade">Cidade *</label>
               <input type="text" id="c-cidade" name="city" required placeholder="Ex: Joinville">
@@ -128,7 +132,7 @@
               <input type="text" id="c-estado" name="state" required placeholder="SC" maxlength="2" style="width:5rem">
             </div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
             <div class="form-group">
               <label for="coleta-data">Data de coleta * <small>(mín. 48h)</small></label>
               <input type="text" id="coleta-data" placeholder="DD/MM/AAAA" maxlength="10" required>
